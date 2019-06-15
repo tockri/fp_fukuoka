@@ -1,7 +1,7 @@
 "use strict";
 
 /*
- * Stateオブジェクトの決めごと
+ * Stateオブジェクトのインターフェイス
  * {
  *  value: string
  *  valid: boolean
@@ -10,12 +10,12 @@
  */
 
 /**
- * 名前のバリデーション
- * @param {*} nameState
+ * 名前のバリデーション（純粋関数）
+ * @param {State} nameState
  */
 function validateName(nameState) {
   if (nameState.value) {
-    // もとのオブジェクトを変更しないでコピーして返す。
+    // もとのオブジェクトを変更せずコピーして新しいオブジェクトを返す。
     // 引数を変更したら純粋関数ではなくなる
     return {
       ...nameState,
@@ -23,6 +23,7 @@ function validateName(nameState) {
       message: ""
     };
   } else {
+    // コピーして新しいオブジェクト
     return {
       ...nameState,
       valid: false,

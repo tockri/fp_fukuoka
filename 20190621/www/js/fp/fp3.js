@@ -4,7 +4,7 @@
  * Stateオブジェクトのインターフェイス
  * {
  *  value: string
- *  valid: boolean | null
+ *  valid: boolean
  *  message: string
  * }
  */
@@ -14,7 +14,7 @@ const Validator = {};
 /**
  * valueが空だったらエラーにする
  */
-Validator.required = function(state, messageIfEmpty) {
+Validator.checkRequired = function(state, messageIfEmpty) {
   if (state.valid) {  
     if (state.value) {
       return {
@@ -37,7 +37,7 @@ Validator.required = function(state, messageIfEmpty) {
 /**
  * valueがパターンに一致しなかったらエラーにする
  */
-Validator.match = function(state, pattern, messageIfWrong) {
+Validator.checkMatched = function(state, pattern, messageIfWrong) {
   if (state.valid) {
     if (state.value.match(pattern)) {
       return {
@@ -62,27 +62,27 @@ Validator.match = function(state, pattern, messageIfWrong) {
  * @param {State} state
  */
 Validator.validateName = function(state) {
-  return Validator.required(state, "名前を入力してください");
+  return Validator.checkRequired(state, "名前を入力してください");
 };
 /**
  * 住所のバリデーション
  */
 Validator.validateAddress = function(state) {
-  return Validator.required(state, "住所を入力してください");
+  return Validator.checkRequired(state, "住所を入力してください");
 };
 /**
  * 郵便番号のバリデーション
  */
 Validator.validateZip = function(state) {
-  const state2 = Validator.required(state, "郵便番号を入力してください");
-  return Validator.match(state2, /^\d{3}-\d{4}$/, "000-0000の形式で入力してください");
+  const state2 = Validator.checkRequired(state, "郵便番号を入力してください");
+  return Validator.checkMatched(state2, /^\d{3}-\d{4}$/, "000-0000の形式で入力してください");
 };
 /**
  * メールアドレスのバリデーション
  */
 Validator.validateMail = function(state) {
-  const state2 = Validator.required(state, "メールアドレスを入力してください");
-  return Validator.match(state2, /^[\w\.]+@[\w\.]+[^\.]$/, "メールアドレスの形式が正しくありません。");
+  const state2 = Validator.checkRequired(state, "メールアドレスを入力してください");
+  return Validator.checkMatched(state2, /^[\w\.]+@[\w\.]+[^\.]$/, "メールアドレスの形式が正しくありません。");
 };
 
 // テスト用コード。ブラウザでは実行されない

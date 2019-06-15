@@ -25,6 +25,7 @@ function setErrorMessage(helper, message) {
 
 /**
  * バリデーションを設定する
+ * スーパー賢い俺様の万能メソッド
  * @param {string} id inputのid
  * @param {string} helperId helperのid
  * @param {string} validationType "require" | "regex"

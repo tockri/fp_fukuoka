@@ -15,6 +15,7 @@
   /**
    * DOMからStateオブジェクトをつくる
    * @param {jQuery} ipt input要素
+   * @returns {State}
    */
   function toState(ipt) {
     return {
@@ -56,9 +57,13 @@
         checkSubmitable();
       });
     }
+    // 名前
     setValidation($("#name"), $("#name-helper"), Validator.validateName);
+    // 郵便番号
     setValidation($("#zip"), $("#zip-helper"), Validator.validateZip);
+    // 住所
     setValidation($("#address"), $("#address-helper"), Validator.validateAddress);
+    // メールアドレス
     setValidation($("#mail"), $("#mail-helper"), Validator.validateMail);
   });
 })(jQuery);

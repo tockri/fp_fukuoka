@@ -4,7 +4,7 @@
  * Stateオブジェクトのインターフェイス
  * {
  *  value: string
- *  valid: boolean | null
+ *  valid: boolean
  *  message: string
  * }
  */
