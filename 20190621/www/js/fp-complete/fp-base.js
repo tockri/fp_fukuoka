@@ -1,5 +1,18 @@
 (function($) {
   /**
+   * 送信していいかチェックしつつ、submit-buttonのdisabledをきりかえる
+   * @return よければsubmit-buttonをenableにしつつtrue
+   */
+  function checkSubmitable() {
+    if ($(".validate").filter(".valid").length === $(".validate").length) {
+      $("#submit-button").prop("disabled", false);
+      return true
+    } else {
+      $("#submit-button").prop("disabled", true);
+      return false
+    }
+  }
+  /**
    * DOMからStateオブジェクトをつくる
    * @param {jQuery} ipt input要素
    * @returns {State}
@@ -53,18 +66,5 @@
     setValidation($("#address"), $("#address-helper"), Validator.validateAddress);
     // メールアドレス
     setValidation($("#mail"), $("#mail-helper"), Validator.validateMail);
-    /**
-     * submit-buttonのdisabledをきりかえる
-     * （今回はとりあえず無視で）
-     */
-    function checkSubmitable() {
-      if ($(".validate").filter(".valid").length === $(".validate").length) {
-        $("#submit-button").prop("disabled", false);
-        return true
-      } else {
-        $("#submit-button").prop("disabled", true);
-        return false
-      }
-    }
   });
 })(jQuery);

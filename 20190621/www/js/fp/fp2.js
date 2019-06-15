@@ -31,65 +31,13 @@ Validator.validateName = function(state) {
   }
 }
 Validator.validateAddress = function(state) {
-  if (state.value) {
-    return {
-      ...state,
-      valid: true,
-      message: ""
-    }
-  } else {
-    return {
-      ...state,
-      valid: false,
-      message: "住所を入力してください"
-    }
-  }
+  return state;
 }
 Validator.validateZip = function(state) {
-  if (state.value) {
-    if (state.value.match(/^\d{3}-\d{4}$/)) {
-      return {
-        ...state,
-        valid: true,
-        message: ""
-      }
-    } else {
-      return {
-        ...state,
-        valid: false,
-        message: "000-0000の形式で入力してください"
-      }
-    }
-  } else {
-    return {
-      ...state,
-      valid: false,
-      message: "郵便番号を入力してください"
-    }
-  }
+  return state;
 }
 Validator.validateMail = function(state) {
-  if (state.value) {
-    if (state.value.match(/^[\w\.]+@[\w\.]+[^\.]$/)) {
-      return {
-        ...state,
-        valid: true,
-        message: ""
-      }
-    } else {
-      return {
-        ...state,
-        valid: false,
-        message: "メールアドレスの形式が正しくありません。"
-      }
-    }
-  } else {
-    return {
-      ...state,
-      valid: false,
-      message: "メールアドレスを入力してください"
-    }
-  }
+  return state;
 }
 
 

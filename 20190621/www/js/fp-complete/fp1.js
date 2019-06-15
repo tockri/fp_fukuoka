@@ -1,18 +1,12 @@
 "use strict";
 
 /*
-Stateオブジェクトのインターフェイス
-（決めごと）
- 
-interface State {
-  // inputの値
-  value: string
-  // 値が妥当かどうか
-  valid: boolean
-  // 表示メッセージ
-  message: string
-}
-
+ * Stateオブジェクトのインターフェイス
+ * {
+ *  value: string
+ *  valid: boolean
+ *  message: string
+ * }
  */
 
 /**

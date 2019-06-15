@@ -1,5 +1,5 @@
 // sum.test.js
-const Validator = require('../www/js/fp/fp2');
+const Validator = require('../www/js/fp-complete/fp2');
 
 test("validateName check empty", () => {
   const result = Validator.validateName({
