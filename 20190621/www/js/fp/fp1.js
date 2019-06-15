@@ -29,29 +29,9 @@ function validateName(nameState) {
   }
 }
 
-
-
-(function($) {
-  $(function() {
-    // Materializeのデフォルト挙動をOFFする
-    M.validate_field = window.validate_field = function() {};
-
-    const ipt = $("#name");
-    ipt.on("change", function() {
-      const state = {
-        value: ipt.val(),
-        valid: null,
-        message: ""
-      }
-      const newState = validateName(state)
-      if (newState.valid === true) {
-        ipt.removeClass("invalid");
-        ipt.addClass("valid");
-      } else if (newState.valid) {
-        ipt.removeClass("valid");
-        ipt.addClass("invalid");
-        helper.attr("data-error", newState.message);
-      }
-    });
-  });
-})(jQuery);
+// テスト用コード。ブラウザでは実行されない
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+  module.exports = {
+    validateName: validateName
+  }
+}

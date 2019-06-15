@@ -1,6 +1,28 @@
 // sum.test.js
-const sum = require('./fp1');
+const fp1 = require('./fp1');
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
+test('validateName check empty', () => {
+  const r1 = fp1.validateName({
+    value: "",
+    valid: null,
+    message: ""
+  });
+  expect(r1).toStrictEqual({
+    value: "",
+    valid: false,
+    message: "名前を入力してください"
+  });
+});
+
+test("validateName check not empty", () => {
+  const r1 = fp1.validateName({
+    value: "Not empty",
+    valid: null,
+    message: ""
+  });
+  expect(r1).toStrictEqual({
+    value: "Not empty",
+    valid: true,
+    message: ""
+  })
 });
