@@ -36,7 +36,7 @@ function setValidation(id, helperId, validationType, pattern, errorMessages) {
   const helper = $("#" + helperId);
   ipt.on("change", function() {
     const value = ipt.val();
-    if (value) {
+    if (value !== "") {
       if (validationType === "require") {
         makeValid(ipt);
       } else if (validationType === "regex" && value.match(pattern)) {

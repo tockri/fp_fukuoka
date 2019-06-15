@@ -6,7 +6,7 @@
 function validateName() {
   const ipt = $("#name");
   const helper = $("#name-helper");
-  if (ipt.val()) {
+  if (ipt.val() !== "") {
     ipt.removeClass("invalid");
     ipt.addClass("valid");
   } else {
@@ -23,7 +23,7 @@ function validateName() {
 function validateAddress() {
   const ipt = $("#address");
   const helper = $("#address-helper");
-  if (ipt.val()) {
+  if (ipt.val() !== "") {
     ipt.removeClass("invalid");
     ipt.addClass("valid");
   } else {
@@ -41,7 +41,7 @@ function validateZip() {
   const ipt = $("#zip");
   const helper = $("#zip-helper");
   const zip = ipt.val();
-  if (zip) {
+  if (zip !== "") {
     if (zip.match(/^\d{3}-\d{4}$/)) {
       ipt.removeClass("invalid");
       ipt.addClass("valid");
@@ -65,7 +65,7 @@ function validateMail() {
   const ipt = $("#mail");
   const helper = $("#mail-helper");
   const mail = ipt.val();
-  if (mail) {
+  if (mail !== "") {
     if (mail.match(/^[\w\.]+@[\w\.]+[^\.]$/)) {
       ipt.removeClass("invalid");
       ipt.addClass("valid");

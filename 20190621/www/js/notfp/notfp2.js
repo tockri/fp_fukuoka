@@ -28,7 +28,7 @@ function setErrorMessage(helper, message) {
 function validateName() {
   const ipt = $("#name");
   const helper = $("#name-helper");
-  if (ipt.val()) {
+  if (ipt.val() !== "") {
     makeValid(ipt);
   } else {
     makeInvalid(ipt);
@@ -43,7 +43,7 @@ function validateName() {
 function validateAddress() {
   const ipt = $("#address");
   const helper = $("#address-helper");
-  if (ipt.val()) {
+  if (ipt.val() !== "") {
     makeValid(ipt);
   } else {
     makeInvalid(ipt);
@@ -59,7 +59,7 @@ function validateZip() {
   const ipt = $("#zip");
   const helper = $("#zip-helper");
   const zip = ipt.val();
-  if (zip) {
+  if (zip !== "") {
     if (zip.match(/^\d{3}-\d{4}$/)) {
       makeValid(ipt);
     } else {
@@ -80,7 +80,7 @@ function validateMail() {
   const ipt = $("#mail");
   const helper = $("#mail-helper");
   const mail = ipt.val();
-  if (mail) {
+  if (mail !== "") {
     if (mail.match(/^[\w\.]+@[\w\.]+[^\.]$/)) {
       makeValid(ipt);
     } else {
