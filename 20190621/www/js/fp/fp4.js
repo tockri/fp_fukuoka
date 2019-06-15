@@ -12,6 +12,47 @@
 // exportしやすいように1つのオブジェクトにまとめちゃう
 const Validator = {};
 /**
+ * valueを半角にする
+ */
+Validator.modifyToAscii = function(state) {
+  function toAscii(str) {
+    return str.replace(/[Ａ-Ｚａ-ｚ０-９＠．]/g, function(s) {
+      return String.fromCharCode(s.charCodeAt(0) - 65248);
+    }).replace(/[ー−―‐]/, "-");
+  }
+  return {
+    ...state,
+    value: toAscii(state.value)
+  };
+}
+/**
+ * valueを小文字にする
+ */
+Validator.modifyToLower = function(state) {
+  return {
+    ...state,
+    value: state.value.toLowerCase()
+  }
+}
+/**
+ * 数字7桁を000-0000の形にする
+ */
+Validator.normalizeZipFormat = function(state) {
+  function normalize(str) {
+    const m = str.match(/^(\d{3})(\d{4})$/)
+    if (m) {
+      return m[1] + "-" + m[2];
+    } else {
+      return str;
+    }
+  }
+  return {
+    ...state,
+    value: normalize(state.value)
+  };
+}
+
+/**
  * valueが空だったらエラーにする
  */
 Validator.checkRequired = function(state, messageIfEmpty) {
@@ -62,26 +103,32 @@ Validator.checkMatched = function(state, pattern, messageIfWrong) {
  * @param {State} state
  */
 Validator.validateName = function(state) {
-  return Validator.checkRequired(state, "名前を入力してください");
+  const mod = Validator.modifyToAscii(state);
+  return Validator.checkRequired(mod, "名前を入力してください");
 };
 /**
  * 住所のバリデーション
  */
 Validator.validateAddress = function(state) {
-  return Validator.checkRequired(state, "住所を入力してください");
+  const mod = Validator.modifyToAscii(state);
+  return Validator.checkRequired(mod, "住所を入力してください");
 };
 /**
  * 郵便番号のバリデーション
  */
 Validator.validateZip = function(state) {
-  const state2 = Validator.checkRequired(state, "郵便番号を入力してください");
+  const mod = Validator.modifyToAscii(state);
+  const mod2 = Validator.normalizeZipFormat(mod);
+  const state2 = Validator.checkRequired(mod2, "郵便番号を入力してください");
   return Validator.checkMatched(state2, /^\d{3}-\d{4}$/, "000-0000の形式で入力してください");
 };
 /**
  * メールアドレスのバリデーション
  */
 Validator.validateMail = function(state) {
-  const state2 = Validator.checkRequired(state, "メールアドレスを入力してください");
+  const mod = Validator.modifyToAscii(state);
+  const mod2 = Validator.modifyToLower(mod);
+  const state2 = Validator.checkRequired(mod2, "メールアドレスを入力してください");
   return Validator.checkMatched(state2, /^[\w\.]+@[\w\.]+[^\.]$/, "メールアドレスの形式が正しくありません。");
 };
 

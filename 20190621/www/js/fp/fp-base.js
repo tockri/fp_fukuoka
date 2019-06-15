@@ -32,6 +32,7 @@
    */
   function fromState(state, ipt, helper) {
     if (state.valid === true) {
+      ipt.val(state.value);
       ipt.removeClass("invalid");
       ipt.addClass("valid");
     } else if (state.valid === false) {

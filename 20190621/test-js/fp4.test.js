@@ -1,5 +1,5 @@
 // sum.test.js
-const Validator = require('../www/js/fp/fp2');
+const Validator = require('../www/js/fp/fp4');
 
 test("validateName check empty", () => {
   const result = Validator.validateName({
@@ -42,12 +42,12 @@ test("validateZip check empty", () => {
 
 test("validateZip check ZIP code format", () => {
   const result = Validator.validateZip({
-    value: "0001111",
+    value: "000111a",
     valid: true,
     message: ""
   });
   expect(result).toStrictEqual({
-    value: "0001111",
+    value: "000111a",
     valid: false,
     message: "000-0000の形式で入力してください"
   })
@@ -61,6 +61,45 @@ test("validateZip pass ZIP code format", () => {
   });
   expect(result).toStrictEqual({
     value: "000-1111",
+    valid: true,
+    message: ""
+  })
+});
+
+test("validateZip change ZIP code ascii", () => {
+  const result = Validator.validateZip({
+    value: "０００−１１１１",
+    valid: true,
+    message: ""
+  });
+  expect(result).toStrictEqual({
+    value: "000-1111",
+    valid: true,
+    message: ""
+  })
+});
+
+test("validateZip change ZIP code format", () => {
+  const result = Validator.validateZip({
+    value: "０００１１１１",
+    valid: true,
+    message: ""
+  });
+  expect(result).toStrictEqual({
+    value: "000-1111",
+    valid: true,
+    message: ""
+  })
+});
+
+test("validateMail change mail address ascii", () => {
+  const result = Validator.validateMail({
+    value: "ｍｙ＠ｂ．ＣＯＭ",
+    valid: true,
+    message: ""
+  });
+  expect(result).toStrictEqual({
+    value: "my@b.com",
     valid: true,
     message: ""
   })
