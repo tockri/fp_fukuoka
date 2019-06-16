@@ -28,6 +28,17 @@ function validateName(state) {
       valid: true,
       message: ""
     };
+    // IE11対応するには
+    return {
+      value: state.value,
+      valid: true,
+      message: ""
+    };
+    // またはこう
+    return Object.assign(state, {
+      valid: true,
+      message: ""
+    });
   } else {
     // コピーして新しいオブジェクト
     return {
