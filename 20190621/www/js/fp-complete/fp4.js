@@ -56,23 +56,18 @@ Validator.normalizeZipFormat = function(state) {
  * valueが空だったらエラーにする
  */
 Validator.checkRequired = function(state, messageIfEmpty) {
-  if (state.valid) {  
-    if (state.value !== "") {
-      return {
-        ...state,
-        valid: true,
-        message: ""
-      };
-    } else {
-      return {
-        ...state,
-        valid: false,
-        message: messageIfEmpty
-      };
-    }
+  if (state.value !== "") {
+    return {
+      ...state,
+      valid: true,
+      message: ""
+    };
   } else {
-    // 前のチェックでエラーになってたらそのまま返す
-    return state;
+    return {
+      ...state,
+      valid: false,
+      message: messageIfEmpty
+    };
   }
 };
 /**

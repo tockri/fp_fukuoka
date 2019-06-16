@@ -17,21 +17,21 @@ interface State {
 
 /**
  * 名前のバリデーション（純粋関数）
- * @param {State} nameState
+ * @param {State} state
  */
-function validateName(nameState) {
-  if (nameState.value) {
+function validateName(state) {
+  if (state.value !== "") {
     // もとのオブジェクトを変更せずコピーして新しいオブジェクトを返す。
     // 引数を変更したら純粋関数ではなくなる
     return {
-      ...nameState,
+      ...state,
       valid: true,
       message: ""
     };
   } else {
     // コピーして新しいオブジェクト
     return {
-      ...nameState,
+      ...state,
       valid: false,
       message: "名前を入力してください"
     };
@@ -79,9 +79,15 @@ function validateName(nameState) {
       fromState(newState, ipt, helper);
       checkSubmitable();
     });
+
+
+
+
+
+    
     /**
-     * 送信していいかチェックしつつ、submit-buttonのdisabledをきりかえる
-     * @return よければsubmit-buttonをenableにしつつtrue
+     * submit-buttonのdisabledをきりかえる
+     * （ここはとりあえず今日は無視で。）
      */
     function checkSubmitable() {
       if ($(".validate").filter(".valid").length === $(".validate").length) {

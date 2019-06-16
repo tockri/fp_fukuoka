@@ -19,7 +19,6 @@
    */
   function fromState(state, ipt, helper) {
     if (state.valid === true) {
-      ipt.val(state.value);
       ipt.removeClass("invalid");
       ipt.addClass("valid");
     } else if (state.valid === false) {
@@ -35,12 +34,12 @@
      * changeイベントの挙動を登録する
      * @param {jQuery} ipt input要素
      * @param {jQuery} helper helper要素
-     * @param {Function} validator validationメソッド
+     * @param {Function} validationFunc validation関数
      */
-    function setValidation(ipt, helper, validator) {
+    function setValidation(ipt, helper, validationFunc) {
       ipt.on("change", function() {
         const state = toState(ipt);
-        const newState = validator(state)
+        const newState = validationFunc(state)
         fromState(newState, ipt, helper);
         checkSubmitable();
       });
@@ -53,6 +52,13 @@
     setValidation($("#address"), $("#address-helper"), Validator.validateAddress);
     // メールアドレス
     setValidation($("#mail"), $("#mail-helper"), Validator.validateMail);
+
+
+
+
+
+
+
     /**
      * submit-buttonのdisabledをきりかえる
      * （今回はとりあえず無視で）

@@ -79,23 +79,18 @@ Validator.checkRequired = function(state, messageIfEmpty) {
  * valueがパターンに一致しなかったらエラーにする
  */
 Validator.checkMatched = function(state, pattern, messageIfWrong) {
-  if (state.valid) {
-    if (state.value.match(pattern)) {
-      return {
-        ...state,
-        valid: true,
-        message: ""
-      };
-    } else {
-      return {
-        ...state,
-        valid: false,
-        message: messageIfWrong
-      };
-    }
+  if (state.value.match(pattern)) {
+    return {
+      ...state,
+      valid: true,
+      message: ""
+    };
   } else {
-    // 前のチェックでエラーになってたらそのまま返す
-    return state;
+    return {
+      ...state,
+      valid: false,
+      message: messageIfWrong
+    };
   }
 };
 /**
