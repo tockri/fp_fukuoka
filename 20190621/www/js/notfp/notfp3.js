@@ -70,12 +70,20 @@ function checkSubmitable() {
   $(function() {
     // Materializeのデフォルト挙動をOFFする
     M.validate_field = window.validate_field = function() {};
-    setValidation("name", "name-helper", "require", null, {empty:"名前を入力してください"});
-    setValidation("address", "address-helper", "require", null, {empty:"住所を入力してください"});
+    // 名前
+    setValidation("name", "name-helper", "require", null, {
+      empty:"名前を入力してください"
+    });
+    // 住所
+    setValidation("address", "address-helper", "require", null, {
+      empty:"住所を入力してください"
+    });
+    // 郵便番号
     setValidation("zip", "zip-helper", "regex", /^\d{3}-\d{4}$/, {
       empty: "郵便番号を入力してください",
       wrong: "000-0000の形式で入力してください"
     });
+    // メールアドレス
     setValidation("mail", "mail-helper", "regex", /^[\w\.]+@[\w\.]+[^\.]$/, {
       empty: "メールアドレスを入力してください",
       wrong: "メールアドレスの形式が正しくありません。"
