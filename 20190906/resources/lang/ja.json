@@ -1,0 +1,12 @@
+{
+    "Register new user": "新規ユーザー登録",
+    "Name": "氏名",
+    "Kana": "ふりがな",
+    "E-Mail Address": "メールアドレス",
+    "Password": "パスワード",
+    "Confirm Password": "パスワード(確認)",
+    "Postal Code": "郵便番号",
+    "Address": "住所",
+    "Phone Number": "郵便番号",
+    "Register": "登録"
+}
