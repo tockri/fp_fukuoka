@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-class HomeController extends Controller {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->middleware('auth');
-    }
+use App\Category;
+use App\Status;
+use App\Task;
 
+class HomeController extends Controller {
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        return view('home');
+        \DB::enableQueryLog();
+        $tasks = Task::orderBy('due_date', 'asc')->get();
+        $statuses = []; // Status::all();
+        $categories = []; // Category::all();
+
+        return view('home', compact(['tasks', 'statuses', 'categories']));
     }
 }
