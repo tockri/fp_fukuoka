@@ -2,6 +2,7 @@
 
 PHP Laravelで関数型をやってみた
 資料：https://cacoo.com/diagrams/0jp2l6EmvO9V7ZrI/A4A0D
+note：[こわくない関数型プログラミング](https://note.mu/tockri/m/m9c6982a74507)
 
 # 起動方法
 
