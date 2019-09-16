@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use App\Category;
-use App\Status;
-use App\Task;
+use App\Models\Category;
+use App\Models\Status;
+use App\Models\Task;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase {
@@ -28,7 +28,7 @@ abstract class TestCase extends BaseTestCase {
      * @return Category
      */
     function category($id, $name) {
-        return (object) [
+        return (object)[
             'id' => $id,
             'name' => $name,
         ];
@@ -43,12 +43,21 @@ abstract class TestCase extends BaseTestCase {
      * @return Task
      */
     function task($id, $subject, $statusId, $categoryId, $dueDate) {
-        $t = new Task();
-        $t->id = $id;
-        $t->subject = $subject;
-        $t->status_id = $statusId;
-        $t->category_id = $categoryId;
-        $t->due_date = $dueDate;
-        return $t;
+        return (object) [
+            'id' => $id,
+            'subject' => $subject,
+            'status_id' => $statusId,
+            'category_id' => $categoryId,
+            'due_date' => $dueDate
+        ];
+    }
+
+    function assertThrow($lambda, $errorMessage) {
+        try {
+            $lambda();
+        } catch (\Throwable $ex) {
+            return;
+        }
+        $this->fail("Exception not thrown.  " . $errorMessage);
     }
 }

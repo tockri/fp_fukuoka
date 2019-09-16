@@ -17,6 +17,9 @@
     </div>
     <div class="mt-lg-3">
       @foreach($data->groups as $group)
+        @if($group->head->getName())
+          <h2>{{$data->groupingLabel}} : {{$group->head->getName()}}</h2>
+        @endif
       <table class="table table-bordered">
         <thead>
         <tr>
@@ -27,7 +30,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($group as $task)
+        @foreach($group->tasks as $task)
           <tr>
             <td>{{$task->subject}}</td>
             <td>{{$task->status->name}}</td>
