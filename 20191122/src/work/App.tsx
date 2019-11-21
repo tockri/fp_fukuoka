@@ -49,7 +49,7 @@ const searchCars = (callback: CarsCallback) => {
 
 const carsInitValue: any[] = [];
 /**
- * 初期状態。全く分離されていない状態。
+ * コンポーネントと通信部分が分離された状態。
  */
 const App: React.FC = () => {
   const [cars, setState] = useState(carsInitValue);

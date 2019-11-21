@@ -11,8 +11,17 @@
 
 .App .car-list {
   border-collapse: collapse;
+  width: 90%;
+  margin: 10px 5%;
 }
 
 .App .car-list td, .App .car-list th {
   border: 1px solid gray;
+  padding: 3px;
+  background-color: aliceblue;
+}
+
+.App .car-list .car-image {
+  max-width: 150px;
+  max-height: 120px;
 }
