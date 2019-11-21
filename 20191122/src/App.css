@@ -1,0 +1,18 @@
+.App {
+}
+
+.App-header {
+}
+
+.App .search-button {
+  font-size: 140%;
+  padding: 10px 1em;
+}
+
+.App .car-list {
+  border-collapse: collapse;
+}
+
+.App .car-list td, .App .car-list th {
+  border: 1px solid gray;
+}
