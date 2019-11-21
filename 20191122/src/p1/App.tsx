@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
-import './App.css';
+import '../css/App.css';
 
 const apiKey = 'cd6e9af2c6cdec39';
 const fukuokaPref = 40;
 /**
- * 初期状態。何も分離されていない状態。
+ * 初期状態。全く分離されていない状態。
  */
-
-const App_p1: React.FC = () => {
+const App: React.FC = () => {
   const [data, setState] = useState([]);
   return <div className="App">
     <header className="App-header">
@@ -44,4 +43,4 @@ const App_p1: React.FC = () => {
   </div>;
 };
 
-export default App_p1;
+export default App;
