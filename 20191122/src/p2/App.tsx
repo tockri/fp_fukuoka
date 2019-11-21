@@ -1,39 +1,38 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../css/App.css';
 import {Constants} from "../Constants";
+import {SearchResult, UsedCar} from "../types/carsensor";
 
 const apiKey = Constants.CARSENSOR_API_KEY;
 const fukuokaPref = 40;
 
-const CarList = (props: { cars: any[] }) => {
-  const cars = props.cars;
-  return (<table className="car-list">
-    <thead>
-    <tr>
-      <th>車種</th>
-      <th>写真</th>
-    </tr>
-    </thead>
-    <tbody>
-    {cars.map((car: any) => <CarInfo car={car}/>)}
-    </tbody>
-  </table>);
+
+/**
+ * この画面全体のState
+ */
+type AppState = {
+  // 検索結果 | undefined
+  searchResult?: SearchResult
 };
+/**
+ * 検索結果からAppStateを生成する関数
+ */
+const AppState: (result: SearchResult) => AppState =
+  result => ({searchResult: result});
 
-const CarInfo = (props: { car: any }) => {
-  const car = props.car;
-  return (<tr key={car.id}>
-    <td>{[car.brand.name, car.brand.code, car.grade].join(' ')}</td>
-    <td>
-      <img style={{maxWidth: 150, maxHeight: 120}} src={car.photo.main.l}/>
-    </td>
-  </tr>);
-};
+/**
+ * 初期状態：検索結果なし
+ */
+const initialState: AppState = {};
 
-type CarsCallback = (cars: any[]) => void;
-
-const searchCars = (callback: CarsCallback) => {
-  fetch(`https://webservice.recruit.co.jp/carsensor/usedcar/v1/?key=${apiKey}&pref=${fukuokaPref}&format=json`)
+/**
+ * 検索実行してレスポンスが返ってきたらコールバックを呼ぶ
+ * 参考：カーセンサーAPI
+ * https://webservice.recruit.co.jp/carsensor/reference.html#a1to
+ */
+const search = (callback: (result: SearchResult) => void) => {
+  fetch("https://webservice.recruit.co.jp/carsensor/usedcar/v1/" +
+    `?key=${apiKey}&pref=${fukuokaPref}&format=json`)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -41,29 +40,81 @@ const searchCars = (callback: CarsCallback) => {
         throw new Error('Network response was not ok.');
       }
     })
-    .then((json) => {
-      console.log("API response", json);
-      callback(json.results.usedcar);
+    .then((sr: SearchResult) => { // 明示的に型を指定することでanyからキャスト
+      console.log("API response", sr);
+      callback(sr);
     });
 };
 
-const carsInitValue: any[] = [];
 /**
- * 初期状態。全く分離されていない状態。
+ * カーセンサーの中古車を検索して一覧表示する
  */
-const App: React.FC = () => {
-  const [cars, setState] = useState(carsInitValue);
+const App = () => {
+  // react-hooks 。コンポーネントローカルの状態(AppState)を持つ。
+    const [state, setState] = useState(initialState);
+  useEffect(() => {
+    search(result => setState(AppState(result)));
+  }, []);
+
   return <div className="App">
-    <header className="App-header">
-      <button className="search-button" onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        searchCars(setState)
-      }}>検索する!
-      </button>
-      {cars.length === 0 ? <></> : <CarList cars={cars}/>}
-    </header>
+    {state.searchResult
+      ? <section>
+          <ResultHead result={state}/>
+          <CarList cars={state.searchResult.results.usedcar}/>
+        </section>
+      : <></>}
   </div>;
+};
+
+/**
+ * 検索結果のヘッダ
+ */
+const ResultHead = (props: { result: AppState }) => {
+  const results = props.result.searchResult!.results;
+
+  return <div>
+    {results.results_available} 件が見つかりました。
+    （{results.results_start} 〜 {results.results_start + parseInt(results.results_returned) - 1}件を表示）
+  </div>
+};
+
+/**
+ * 中古車一覧表示
+ */
+const CarList = (props: { cars: UsedCar[] }) => {
+  const cars = props.cars;
+  return <table className="car-list">
+    <thead>
+    <tr>
+      <th>物件</th>
+      <th>写真</th>
+    </tr>
+    </thead>
+    <tbody>
+    {cars.map(car => <CarView car={car}/>)}
+    </tbody>
+  </table>
+};
+
+/**
+ * 中古車一台分の表示
+ */
+const CarView = (props: { car: UsedCar }) => {
+  const car = props.car;
+  return <tr key={car.id}>
+    <td>
+      <div>
+        <a href={car.urls.pc} target="_blank">
+          {[car.brand.name, car.model, car.grade].join(' ')}
+        </a>
+      </div>
+      <div>{car.color}</div>
+      <small>{car.desc}</small>
+    </td>
+    <td>
+      <img className="car-image" src={car.photo.main.l}/>
+    </td>
+  </tr>;
 };
 
 export default App;

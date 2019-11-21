@@ -83,7 +83,7 @@
 
 
 export type SearchResult = {
-  results?: {
+  results: {
     api_version: string,
     results_available: number,
     results_returned: string,
