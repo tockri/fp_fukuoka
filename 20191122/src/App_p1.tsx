@@ -7,7 +7,7 @@ const fukuokaPref = 40;
  * 初期状態。何も分離されていない状態。
  */
 
-const App: React.FC = () => {
+const App_p1: React.FC = () => {
   const [data, setState] = useState([]);
   return <div className="App">
     <header className="App-header">
@@ -44,4 +44,4 @@ const App: React.FC = () => {
   </div>;
 };
 
-export default App;
+export default App_p1;
