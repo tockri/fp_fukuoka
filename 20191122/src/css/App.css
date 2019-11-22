@@ -2,17 +2,10 @@
   margin: 20px;
 }
 
-.App-header {
-}
-
-.App .search-button {
-  font-size: 140%;
-  padding: 10px 1em;
-}
-
 .App .car-list {
   border-collapse: collapse;
   width: 100%;
+  margin: 5px 0;
 }
 
 .App .car-list td, .App .car-list th {
