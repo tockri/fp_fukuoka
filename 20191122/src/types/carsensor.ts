@@ -81,17 +81,17 @@
 }*/
 
 
-export type SearchResult = {
+export type CarsensorUsedCarResult = {
   results: {
     api_version: string,
     results_available: number,
     results_returned: string,
     results_start: number,
-    usedcar: UsedCar[]
+    usedcar: CarsensorUsedCar[]
   }
 }
 
-export type UsedCar = {
+export type CarsensorUsedCar = {
   id: string,
   brand: {
     code: string,

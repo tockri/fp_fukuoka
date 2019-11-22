@@ -1,23 +1,41 @@
 import React, {useEffect, useState} from 'react';
 import '../css/App.css';
 import {Constants} from "../Constants";
-import {SearchResult, UsedCar} from "../types/carsensor";
+import {CarsensorUsedCarResult, CarsensorUsedCar} from "../types/carsensor";
 
 const apiKey = Constants.CARSENSOR_API_KEY;
 const fukuokaPref = 40;
 
-
+/**
+ * 車一台分の情報
+ */
+export type CarInfo = {
+  id: string
+  displayName: string
+  color: string
+  description: string
+  url: string
+  imageUrl: string
+};
+/**
+ * 車リストの情報
+ */
+export type CarInfoList = {
+  totalCount: number  // 検索ヒット件数
+  startIndex: number  // 表示開始番号
+  lastIndex: number   // 表示終了番号
+  cars: CarInfo[]
+};
 /**
  * この画面全体のState
  */
-type AppState = {
-  // 検索結果 | undefined
-  searchResult?: SearchResult
+export type AppState = {
+  carInfoList?: CarInfoList
 };
 /**
  * 検索結果からAppStateを生成する関数
  */
-const AppState: (result: SearchResult) => AppState =
+export const AppState: (result: CarsensorUsedCarResult) => AppState =
   result => ({searchResult: result});
 
 /**
@@ -30,7 +48,7 @@ const initialState: AppState = {};
  * 参考：カーセンサーAPI
  * https://webservice.recruit.co.jp/carsensor/reference.html#a1to
  */
-const search = (callback: (result: SearchResult) => void) => {
+const search = (callback: (result: CarsensorUsedCarResult) => void) => {
   fetch("https://webservice.recruit.co.jp/carsensor/usedcar/v1/" +
     `?key=${apiKey}&pref=${fukuokaPref}&format=json`)
     .then(response => {
@@ -40,7 +58,7 @@ const search = (callback: (result: SearchResult) => void) => {
         throw new Error('Network response was not ok.');
       }
     })
-    .then((sr: SearchResult) => { // 明示的に型を指定することでanyからキャスト
+    .then((sr: CarsensorUsedCarResult) => { // 明示的に型を指定することでanyからキャスト
       console.log("API response", sr);
       callback(sr);
     });
@@ -51,7 +69,7 @@ const search = (callback: (result: SearchResult) => void) => {
  */
 const App = () => {
   // react-hooks 。コンポーネントローカルの状態(AppState)を持つ。
-    const [state, setState]: [AppState, React.Dispatch<React.SetStateAction<AppState>>] = useState(initialState);
+  const [state, setState]: [AppState, React.Dispatch<React.SetStateAction<AppState>>] = useState(initialState);
   useEffect(() => {
     search(result => setState(AppState(result)));
   }, []);
@@ -59,9 +77,9 @@ const App = () => {
   return <div className="App">
     {state.searchResult
       ? <section>
-          <ResultHead result={state}/>
-          <CarList cars={state.searchResult.results.usedcar}/>
-        </section>
+        <ResultHead result={state}/>
+        <CarList cars={state.searchResult.results.usedcar}/>
+      </section>
       : <></>}
   </div>;
 };
@@ -81,7 +99,7 @@ const ResultHead = (props: { result: AppState }) => {
 /**
  * 中古車一覧表示
  */
-const CarList = (props: { cars: UsedCar[] }) => {
+const CarList = (props: { cars: CarsensorUsedCar[] }) => {
   const cars = props.cars;
   return <table className="car-list">
     <thead>
@@ -99,7 +117,7 @@ const CarList = (props: { cars: UsedCar[] }) => {
 /**
  * 中古車一台分の表示
  */
-const CarView = (props: { car: UsedCar }) => {
+const CarView = (props: { car: CarsensorUsedCar }) => {
   const car = props.car;
   return <tr key={car.id}>
     <td>
