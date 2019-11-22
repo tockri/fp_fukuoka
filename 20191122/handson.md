@@ -35,6 +35,19 @@ cp -r p1 work
 以上です。
 
 # 3. とりあえず実行してみる
+
+## Chromeを終了して、起動する
+### Mac
+```sh
+open /Applications/Google\ Chrome.app/ --args --disable-web-security --user-data-dir
+```
+### Windows
+```
+chrome.exe --disable-web-security --user-data-dir
+```
+
+
+
 ```
 yarn start
 ```
