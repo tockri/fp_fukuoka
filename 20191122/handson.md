@@ -252,9 +252,6 @@ const ResultHead = (props: { result: CarsensorUsedCarResult }) => {
 ```
 を、以下のように書き換えます。
 ```tsx
-/**
- * 検索結果のヘッダ
- */
 const ResultHead = (props: { carInfoList: CarInfoList }) => {
   const carInfoList = props.carInfoList;
 
@@ -351,7 +348,7 @@ yarn start
 
 完成したソースコードは[src/p2/App.tsx](https://github.com/tockri/fp_fukuoka/blob/master/20191122/src/p2/App.tsx)と同じになります。
 
-# 7. テスタビリティについて
+# 7. テスタビリティ
 
 Reactの最近の書き方で書くと、そもそもほとんど全ての関数が純粋関数になっています。Viewすらも純粋関数。
 リファクタリングで関数は増えましたが、テスタビリティに違いがあります。
@@ -404,6 +401,7 @@ yarn test
 ソースを変更すると自動でテストが走るので開きっぱなしにしておきます。
 
 ## (1) ログを一時的に仕込む
+変換関数
 ```tsx
 export const AppState: (result: CarsensorUsedCarResult) => AppState =
   result => {
@@ -449,4 +447,16 @@ it('CarListInfo() converts API response', () => {
 ```
 カンタンですね。たったこれだけで将来のデグレードを防げるのですから、むしろ書かない理由が思いつきません！
 
+yarnが自動的にテスト実行しているので、ちゃんと通ることを確認します。
+
 完成したテストは[src/p2/App.test.tsx](https://github.com/tockri/fp_fukuoka/blob/master/20191122/src/p2/App.test.tsx)と同じになります。
+
+# 9. まとめ
+
+1. IOやViewはテストしづらい
+2. ロジック部分を純粋関数に切り出す
+3. 切り出した純粋関数はテストしやすい
+4. ロジックを切り出した後はテストの必要がない一本道のコードになる（かもしれない）
+5. 関数型プログラミングに慣れるとmapの意味がわかるので、mapはロジックではないとみなし、テストの必要を感じなくなる
+
+以上。お疲れさまでした！
