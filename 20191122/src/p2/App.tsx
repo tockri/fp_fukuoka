@@ -51,7 +51,7 @@ const search = (callback: (result: SearchResult) => void) => {
  */
 const App = () => {
   // react-hooks 。コンポーネントローカルの状態(AppState)を持つ。
-    const [state, setState] = useState(initialState);
+    const [state, setState]: [AppState, React.Dispatch<React.SetStateAction<AppState>>] = useState(initialState);
   useEffect(() => {
     search(result => setState(AppState(result)));
   }, []);

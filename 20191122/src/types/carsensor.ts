@@ -2,10 +2,9 @@
  * 中古車検索API
  * https://webservice.recruit.co.jp/carsensor/reference.html#a1to
  * のレスポンスtype
-
  */
 /*
-
+（作業用）実際のレスポンスJSONのサンプル
 {
     "results_start": 1,
     "results_returned": "10",
