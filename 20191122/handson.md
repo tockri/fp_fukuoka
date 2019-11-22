@@ -3,6 +3,8 @@
 ## jsで副作用を分離するハンズオン
 といいつつ、TypeScriptを使います。IntelliJとかで補完が効いて楽だし、型が理解の助けになるので
 
+[toc]
+
 # 0. yarnをインストール
 
 システムにyarnがインストールされていない場合は[公式サイトの「インストール」](https://yarnpkg.com/lang/ja/docs/install/#mac-stable)を見てインストールしてください。

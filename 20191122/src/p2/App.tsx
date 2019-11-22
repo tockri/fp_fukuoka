@@ -18,22 +18,9 @@ export type CarInfo = {
   imageUrl: string
 };
 /**
- * 車リストの情報
+ * APIレスポンスからの変換
  */
-export type CarInfoList = {
-  totalCount: number  // 検索ヒット件数
-  startIndex: number  // 表示開始番号
-  lastIndex: number   // 表示終了番号
-  cars: CarInfo[]
-};
-/**
- * この画面全体のState
- */
-export type AppState = {
-  carInfoList?: CarInfoList
-};
-
-export const CarInfo: (car:CarsensorUsedCar) => CarInfo =
+export const CarInfo: (car: CarsensorUsedCar) => CarInfo =
   car => {
     return {
       id: car.id,
@@ -45,6 +32,18 @@ export const CarInfo: (car:CarsensorUsedCar) => CarInfo =
     }
   };
 
+/**
+ * 車リストの情報
+ */
+export type CarInfoList = {
+  totalCount: number  // 検索ヒット件数
+  startIndex: number  // 表示開始番号
+  lastIndex: number   // 表示終了番号
+  cars: CarInfo[]
+};
+/**
+ * APIレスポンスからの変換
+ */
 export const CarInfoList: (result: CarsensorUsedCarResult) => CarInfoList =
   result => {
     const r = result.results;
@@ -55,11 +54,23 @@ export const CarInfoList: (result: CarsensorUsedCarResult) => CarInfoList =
       cars: r.usedcar.map(CarInfo)
     }
   };
+
+/**
+ * この画面全体のState
+ */
+export type AppState = {
+  carInfoList?: CarInfoList
+};
 /**
  * 検索結果からAppStateを生成する関数
  */
 export const AppState: (result: CarsensorUsedCarResult) => AppState =
-  result => ({carInfoList: CarInfoList(result)});
+  result => {
+    console.log("CarsensorUsedCarResult", JSON.stringify(result, null, 2));
+    const converted = CarInfoList(result);
+    console.log("CarInfoList", JSON.stringify(converted, null, 2));
+    return {carInfoList: converted};
+  };
 
 /**
  * 初期状態：検索結果なし
@@ -92,7 +103,7 @@ const search = (callback: (result: CarsensorUsedCarResult) => void) => {
  */
 const App = () => {
   // react-hooks 。コンポーネントローカルの状態(AppState)を持つ。
-  const [state, setState]: [AppState, React.Dispatch<React.SetStateAction<AppState>>] = useState(initialState);
+  const [state, setState] = useState(initialState);
   useEffect(() => {
     search(result => setState(AppState(result)));
   }, []);
@@ -132,7 +143,7 @@ const CarList = (props: { cars: CarInfo[] }) => {
     </tr>
     </thead>
     <tbody>
-    {cars.map(car => <CarView car={car}/>)}
+    {cars.map(car => <CarView car={car} key={car.id}/>)}
     </tbody>
   </table>
 };
@@ -142,10 +153,10 @@ const CarList = (props: { cars: CarInfo[] }) => {
  */
 const CarView = (props: { car: CarInfo }) => {
   const car = props.car;
-  return <tr key={car.id}>
+  return <tr>
     <td>
       <div>
-        <a href={car.url} target="_blank">
+        <a href={car.url} target="_blank" rel="noopener noreferrer">
           {car.displayName}
         </a>
       </div>
@@ -153,7 +164,7 @@ const CarView = (props: { car: CarInfo }) => {
       <small>{car.description}</small>
     </td>
     <td>
-      <img className="car-image" src={car.imageUrl}/>
+      <img className="car-image" src={car.imageUrl} alt=""/>
     </td>
   </tr>;
 };
