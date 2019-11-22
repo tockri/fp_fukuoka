@@ -18,7 +18,9 @@ type AppState = {
  * 検索結果からAppStateを生成する関数
  */
 const AppState: (result: CarsensorUsedCarResult) => AppState =
-  result => ({searchResult: result});
+  result => {
+    return {searchResult: result};
+  };
 
 /**
  * 初期状態：検索結果なし
@@ -59,7 +61,7 @@ const App = () => {
   return <div className="App">
     {state.searchResult
       ? <section>
-        <ResultHead result={state}/>
+        <ResultHead result={state.searchResult}/>
         <CarList cars={state.searchResult.results.usedcar}/>
       </section>
       : <></>}
@@ -69,8 +71,8 @@ const App = () => {
 /**
  * 検索結果のヘッダ
  */
-const ResultHead = (props: { result: AppState }) => {
-  const results = props.result.searchResult!.results;
+const ResultHead = (props: { result: CarsensorUsedCarResult }) => {
+  const results = props.result.results;
 
   return <div>
     {results.results_available} 件が見つかりました。
@@ -91,7 +93,7 @@ const CarList = (props: { cars: CarsensorUsedCar[] }) => {
     </tr>
     </thead>
     <tbody>
-    {cars.map(car => <CarView car={car}/>)}
+    {cars.map(car => <CarView car={car} key={car.id}/>)}
     </tbody>
   </table>
 };
@@ -101,10 +103,10 @@ const CarList = (props: { cars: CarsensorUsedCar[] }) => {
  */
 const CarView = (props: { car: CarsensorUsedCar }) => {
   const car = props.car;
-  return <tr key={car.id}>
+  return <tr>
     <td>
       <div>
-        <a href={car.urls.pc} target="_blank">
+        <a href={car.urls.pc} target="_blank" rel="noopener noreferrer" >
           {[car.brand.name, car.model, car.grade].join(' ')}
         </a>
       </div>
@@ -112,7 +114,7 @@ const CarView = (props: { car: CarsensorUsedCar }) => {
       <small>{car.desc}</small>
     </td>
     <td>
-      <img className="car-image" src={car.photo.main.l}/>
+      <img className="car-image" src={car.photo.main.l} alt=""/>
     </td>
   </tr>;
 };

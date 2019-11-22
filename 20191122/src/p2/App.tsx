@@ -32,11 +32,34 @@ export type CarInfoList = {
 export type AppState = {
   carInfoList?: CarInfoList
 };
+
+export const CarInfo: (car:CarsensorUsedCar) => CarInfo =
+  car => {
+    return {
+      id: car.id,
+      displayName: [car.brand.name, car.model, car.grade].join(' '),
+      color: car.color,
+      description: car.desc,
+      url: car.urls.pc,
+      imageUrl: car.photo.main.l
+    }
+  };
+
+export const CarInfoList: (result: CarsensorUsedCarResult) => CarInfoList =
+  result => {
+    const r = result.results;
+    return {
+      totalCount: r.results_available,
+      startIndex: r.results_start,
+      lastIndex: r.results_start + parseInt(r.results_returned) - 1,
+      cars: r.usedcar.map(CarInfo)
+    }
+  };
 /**
  * 検索結果からAppStateを生成する関数
  */
 export const AppState: (result: CarsensorUsedCarResult) => AppState =
-  result => ({searchResult: result});
+  result => ({carInfoList: CarInfoList(result)});
 
 /**
  * 初期状態：検索結果なし
@@ -75,10 +98,10 @@ const App = () => {
   }, []);
 
   return <div className="App">
-    {state.searchResult
+    {state.carInfoList
       ? <section>
-        <ResultHead result={state}/>
-        <CarList cars={state.searchResult.results.usedcar}/>
+        <ResultHead carInfoList={state.carInfoList}/>
+        <CarList cars={state.carInfoList.cars}/>
       </section>
       : <></>}
   </div>;
@@ -87,19 +110,19 @@ const App = () => {
 /**
  * 検索結果のヘッダ
  */
-const ResultHead = (props: { result: AppState }) => {
-  const results = props.result.searchResult!.results;
+const ResultHead = (props: { carInfoList: CarInfoList }) => {
+  const carInfoList = props.carInfoList;
 
   return <div>
-    {results.results_available} 件が見つかりました。
-    （{results.results_start} 〜 {results.results_start + parseInt(results.results_returned) - 1}件を表示）
+    {carInfoList.totalCount} 件が見つかりました。
+    （{carInfoList.startIndex} 〜 {carInfoList.lastIndex}件を表示）
   </div>
 };
 
 /**
  * 中古車一覧表示
  */
-const CarList = (props: { cars: CarsensorUsedCar[] }) => {
+const CarList = (props: { cars: CarInfo[] }) => {
   const cars = props.cars;
   return <table className="car-list">
     <thead>
@@ -117,20 +140,20 @@ const CarList = (props: { cars: CarsensorUsedCar[] }) => {
 /**
  * 中古車一台分の表示
  */
-const CarView = (props: { car: CarsensorUsedCar }) => {
+const CarView = (props: { car: CarInfo }) => {
   const car = props.car;
   return <tr key={car.id}>
     <td>
       <div>
-        <a href={car.urls.pc} target="_blank">
-          {[car.brand.name, car.model, car.grade].join(' ')}
+        <a href={car.url} target="_blank">
+          {car.displayName}
         </a>
       </div>
       <div>{car.color}</div>
-      <small>{car.desc}</small>
+      <small>{car.description}</small>
     </td>
     <td>
-      <img className="car-image" src={car.photo.main.l}/>
+      <img className="car-image" src={car.imageUrl}/>
     </td>
   </tr>;
 };

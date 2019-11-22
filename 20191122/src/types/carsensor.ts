@@ -103,7 +103,7 @@ export type CarsensorUsedCar = {
   engine: string,
   year: string,
   odd: string,
-  price: string,
+  price: string|number,
   desc: string,
   photo: {
     sub: string[],
@@ -138,7 +138,7 @@ export type CarsensorUsedCar = {
   },
   warranty: string
   warranty_distance: string,
-  warranty_fee: "",
+  warranty_fee: string,
   warranty_length: string,
   warranty_comment: string,
   maintenance_comment: string,
